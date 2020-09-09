@@ -44,7 +44,7 @@
     </section>
     <section class="row controls" v-else>
         <div class="small-12 columns">
-            <button id="attack">ATTACK</button>
+            <button id="attack" @click="attack">ATTACK</button>
             <button id="special-attack">SPECIAL ATTACK</button>
             <button id="heal">HEAL</button>
             <button id="give-up">GIVE UP</button>
@@ -72,9 +72,16 @@
         methods : {
             startGame : function() {
                 this.isRunning = true;
-                monsterHealth = 100;
-                playerHealth = 100;
-            }
+                this.monsterHealth = 100;
+                this.playerHealth = 100;
+            },
+            attack : function() {
+                this.monsterHealth -= 5;
+                this.playerHealth -= 7;
+            },
+
+            specialAttack
+
         }
     });
 </script>
