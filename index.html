@@ -46,15 +46,15 @@
         <div class="small-12 columns">
             <button id="attack" @click="attack">ATTACK</button>
             <button id="special-attack" @click="specialAttack">SPECIAL ATTACK</button>
-            <button id="heal">HEAL</button>
-            <button id="give-up">GIVE UP</button>
+            <button id="heal" @click="health">HEAL</button>
+            <button id="give-up" @click="giveUp">GIVE UP</button>
         </div>
     </section>
     <section class="row log">
         <div class="small-12 columns">
             <ul>
-                <li>
-
+                <li v-for="d in doneList ">
+                    {{ d }}
                 </li>
             </ul>
         </div>
@@ -68,6 +68,7 @@
             isRunning : false,
             monsterHealth : 100,
             playerHealth : 100,
+            doneList : []
         },
         methods : {
             startGame : function() {
@@ -75,16 +76,39 @@
                 this.monsterHealth = 100;
                 this.playerHealth = 100;
             },
+            appendList : function (m,y) {
+                return "Monster damaged you with" +m +"\nYou damaged Monster with" +y;
+            },
             attack : function() {
-                this.monsterHealth -= 7;
-                this.playerHealth -= 5;
+                let attackM=parseInt(Math.random()*7);
+                let attackP=parseInt(Math.random()*5);
+                this.monsterHealth -= attackM;
+                this.playerHealth -= attackP;
+                this.doneList.unshift(appendList(attackM,attackP));
+                
             },
 
             specialAttack : function(){
-                this.monsterHealth -= 10;
-                this.playerHealth -= 7;
-            }
+                let attackM=parseInt(Math.random()*10);
+                let attackP=parseInt(Math.random()*7);
+                this.monsterHealth -= parseInt(Math.random()*10);
+                this.playerHealth -= parseInt(Math.random()*7);
+            },
 
+            health : function() {
+                this.playerHealth += parseInt(Math.random()*3);
+            },
+
+            giveUp : function () {
+                this.isRunning = false;
+            },
+
+            monsterAttack : function () {
+                
+            },
+            playerAttack : function () {
+                
+            }
         }
     });
 </script>
