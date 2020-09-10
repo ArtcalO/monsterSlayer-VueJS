@@ -75,40 +75,74 @@
                 this.isRunning = true;
                 this.monsterHealth = 100;
                 this.playerHealth = 100;
-            },
-            appendList : function (m,y) {
-                return "Monster damaged you with" +m +"\nYou damaged Monster with" +y;
-            },
-            attack : function() {
-                let attackM=parseInt(Math.random()*7);
-                let attackP=parseInt(Math.random()*5);
-                this.monsterHealth -= attackM;
-                this.playerHealth -= attackP;
-                this.doneList.unshift(appendList(attackM,attackP));
-                
+                this.doneList=[];
             },
 
+            getRandomNb : function (min,max) {
+                  return Math.floor(Math.random() * (max - min)) + min;
+            },
+
+            attack : function() {
+                let attackM=this.getRandomNb(5,7);
+                let attackP=this.getRandomNb(3,5);
+                if(this.checkState(this.monsterHealth,this.playerHealth)){
+                    this.monsterHealth -= attackM;
+                    this.playerHealth -= attackP;
+                    this.doneList.unshift("Igisizimwe Kikuriye kurugero rungana na "+ attackP);
+                    this.doneList.unshift("Wewe Uriye Igisizimnwe kurugero rungana na "+ attackM);
+                    }
+                else{
+                    confirm(this.wins(this.monsterHealth,this.playerHealth)); 
+                }
+            },
             specialAttack : function(){
-                let attackM=parseInt(Math.random()*10);
-                let attackP=parseInt(Math.random()*7);
-                this.monsterHealth -= parseInt(Math.random()*10);
-                this.playerHealth -= parseInt(Math.random()*7);
+                let attackM=this.getRandomNb(7,10);
+                let attackP=this.getRandomNb(5,7);
+                if(this.checkState(this.monsterHealth,this.playerHealth)){
+                    this.monsterHealth -= attackM;
+                    this.playerHealth -= attackP;
+                    this.doneList.unshift("Igisizimwe Kikuriye kurugero rungana na"+ attackP);
+                    this.doneList.unshift("Wewe Uriye Igisizimnwe kurugero rungana na"+ attackM);
+                }
+                else{
+                    confirm(this.wins(this.monsterHealth,this.playerHealth));
+                }
             },
 
             health : function() {
-                this.playerHealth += parseInt(Math.random()*3);
+                let healthNb = 10;
+                let attackM=this.getRandomNb(2,5);
+                if(this.playerHealth > 0 && this.playerHealth < 100){
+                    if(this.monsterHealth > 0){
+                        this.playerHealth += healthNb;
+                        this.playerHealth -= attackM
+                        this.doneList.unshift("Wewe Urivuye kurugero rungana na"+ healthNb);
+                        this.doneList.unshift("Igisizimwe Kikuriye kurugero rungana na"+ attackM);
+                    }
+                }
+
             },
 
             giveUp : function () {
                 this.isRunning = false;
             },
 
-            monsterAttack : function () {
-                
+            checkState : function(stateMonster, statePlayer) {
+                if(stateMonster > 0 && statePlayer > 0){
+                    return true
+                }
+                else if(statePlayer < 0 || stateMonster < 0){
+                    return false
+                }
             },
-            playerAttack : function () {
-                
-            }
+            wins : function(stateMonster, statePlayer) {
+                 if(stateMonster > 0 && statePlayer < 0){
+                    return "The Monster Wins";
+                }
+                else if(statePlayer < 0 || stateMonster < 0){
+                    return "You Win";
+                }
+            },
         }
     });
 </script>
